@@ -15,9 +15,12 @@ const API_KEY = process.env.API_KEY;
 router.route('/')
     .get((req, res) => {
         axios.get(`https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/vurolok?api_key=${API_KEY}`)
-            .then((data) => {
-                res.json(data.data);
-            })
+            .then((summonerData) => {
+                axios.get(`https://na1.api.riotgames.com/lol/match/v3/matchlists/by-account/${summonerData.data.accountId}?api_key=${API_KEY}`)
+                    .then((matchlistData) => {
+                        res.json(matchlistData.data);
+                    });
+            });
     });
 
 module.exports = router;
