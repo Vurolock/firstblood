@@ -34,37 +34,38 @@ router.route('/scrape')
         };
         rp(options)
         .then($ => {
-            console.log($);
             let opggData = {};
-            $('.ChampionName a').each((i, elem) => {
-                opggData[i] = { "name" : $(elem).text() };
+            // Name
+            $('.ChampionName a').each((i, element) => {
+                opggData[i] = { "name" : $(element).text() };
             });
-            console.log($('.WinRatioGraph').html());
-            // $('.WinRatioGraph').each((i, winRateDiv) => {
-            //     console.log(winRateDiv.html());
-                $('.WinRatio').each((i, elem) => {
-                    opggData[i].winrate = { "value": $(elem).text() };
-                });
-                $('.Text.Left').each((i, elem) => {
-                    opggData[i].winrate.wins = $(elem).text();
-                });
-                $('.Text.Right').each((i, elem) => {
-                    opggData[i].winrate.losses = $(elem).text();
-                });
-            // });
+
+            // Win rate data
+
+            $('.WinRatioGraph').each((i, element) => {
+                let winRatioHtml = $(element).html();
+                opggData[i].winrate = { "value": $('.WinRatio', winRatioHtml).text() };
+                opggData[i].winrate.wins = $('.Text.Left', winRatioHtml).text().slice(0, -1);
+                opggData[i].winrate.losses = $('.Text.Right', winRatioHtml).text().slice(0, -1);
+            });
             
-            $('.KDA.Cell').each((i, elem) => {
-                opggData[i].KDA = { "value": $(elem).data('value') + '' };
+            // KDA data
+            $('.KDA.Cell').each((i, element) => {
+                opggData[i].KDA = { "value": $(element).data('value') + "" };
             });
-            $('.Kill').each((i, elem) => {
-                opggData[i].KDA.kills = $(elem).text();
+
+            $('.Kill').each((i, element) => {
+                opggData[i].KDA.kills = $(element).text();
             });
-            $('.Death').each((i, elem) => {
-                opggData[i].KDA.deaths = $(elem).text();
+
+            $('.Death').each((i, element) => {
+                opggData[i].KDA.deaths = $(element).text();
             });
-            $('.Assist').each((i, elem) => {
-                opggData[i].KDA.assists = $(elem).text();
+
+            $('.Assist').each((i, element) => {
+                opggData[i].KDA.assists = $(element).text();
             });
+
             return opggData;
         })
         .catch((err) => {
