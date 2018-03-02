@@ -33,22 +33,26 @@ router.route('/scrape')
             transform: (body) => cheerio.load(body)
         };
         rp(options)
-            .then(($) => {
-                data = $('.Body').text();
-                return data;
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-            .then((data) => {
-                res.json(data.replace(/[\r\n\t]/g, ""));
-            })
+        .then(($) => {
+            let opggData = {};
+            $('.ChampionName a').each((i, name) => {
+                opggData[i] = $(name).text();
+            });
+            console.log(opggData);
+            return opggData;
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+        .then((opggData) => {
+            res.json(opggData);
+        })
 
     });
 
 router.route('/favicon.ico')
     .get((req, res) => {
-        res.json('blah');
+        res.json('');
     })
 
 module.exports = router;
