@@ -35,37 +35,42 @@ router.route('/scrape')
         rp(options)
         .then($ => {
             let opggData = {};
-            // Name
-            $('.ChampionName a').each((i, element) => {
-                opggData[i] = { "name" : $(element).text() };
-            });
 
-            // Win rate data
+            $('.Body .Row').each((i, element) => {
+                // Sets context for element selection
+                let tableRowHtml = $(element).html();
 
-            $('.WinRatioGraph').each((i, element) => {
-                let winRatioHtml = $(element).html();
-                opggData[i].winrate = { "value": $('.WinRatio', winRatioHtml).text() };
-                opggData[i].winrate.wins = $('.Text.Left', winRatioHtml).text().slice(0, -1);
-                opggData[i].winrate.losses = $('.Text.Right', winRatioHtml).text().slice(0, -1);
-            });
-            
-            // KDA data
-            $('.KDA.Cell').each((i, element) => {
-                opggData[i].KDA = { "value": $(element).data('value') + "" };
-            });
+                // Name
+                opggData[i] = { "name" : $('.ChampionName a', tableRowHtml).text() };
 
-            $('.Kill').each((i, element) => {
-                opggData[i].KDA.kills = $(element).text();
-            });
+                // Win ratio data
+                opggData[i].winrate = { "value": $('.WinRatio', tableRowHtml).text() };
 
-            $('.Death').each((i, element) => {
-                opggData[i].KDA.deaths = $(element).text();
-            });
+                // If no wins or losses sets value to "0" instead of empty string
+                if (!$('.Text.Left', tableRowHtml).text()) {
+                    opggData[i].winrate.wins = "0";
+                } else {
+                    opggData[i].winrate.wins = $('.Text.Left', tableRowHtml).text().slice(0, -1);
+                }
 
-            $('.Assist').each((i, element) => {
-                opggData[i].KDA.assists = $(element).text();
-            });
+                if (!$('.Text.Right', tableRowHtml).text()) {
+                    opggData[i].winrate.losses = "0";
+                } else {
+                    opggData[i].winrate.losses = $('.Text.Right', tableRowHtml).text().slice(0, -1);
+                }
 
+                // KDA data
+                opggData[i].KDA = { "value": $('.KDA.Cell', tableRowHtml).data('value') + "" };
+                opggData[i].KDA.kills = $('.Kill', tableRowHtml).text();
+                opggData[i].KDA.deaths = $('.Death', tableRowHtml).text();
+                opggData[i].KDA.assists = $('.Assist', tableRowHtml).text();
+
+                // Gold
+                opggData[i].gold = $('.KDA', tableRowHtml).next().text().slice(6, -5);
+
+                // CS
+                opggData[i].cs = $('.KDA', tableRowHtml).next().next().text().slice(6, -5);
+            });
             return opggData;
         })
         .catch((err) => {
