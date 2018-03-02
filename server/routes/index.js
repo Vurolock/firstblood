@@ -36,7 +36,7 @@ router.route('/scrape')
         .then(($) => {
             let opggData = {};
             $('.ChampionName a').each((i, name) => {
-                opggData[i] = $(name).text();
+                opggData[i] = {"name" : $(name).text()};
             });
             console.log(opggData);
             return opggData;
