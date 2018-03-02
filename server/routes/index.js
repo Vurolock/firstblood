@@ -33,12 +33,38 @@ router.route('/scrape')
             transform: (body) => cheerio.load(body)
         };
         rp(options)
-        .then(($) => {
+        .then($ => {
+            console.log($);
             let opggData = {};
-            $('.ChampionName a').each((i, name) => {
-                opggData[i] = {"name" : $(name).text()};
+            $('.ChampionName a').each((i, elem) => {
+                opggData[i] = { "name" : $(elem).text() };
             });
-            console.log(opggData);
+            console.log($('.WinRatioGraph').html());
+            // $('.WinRatioGraph').each((i, winRateDiv) => {
+            //     console.log(winRateDiv.html());
+                $('.WinRatio').each((i, elem) => {
+                    opggData[i].winrate = { "value": $(elem).text() };
+                });
+                $('.Text.Left').each((i, elem) => {
+                    opggData[i].winrate.wins = $(elem).text();
+                });
+                $('.Text.Right').each((i, elem) => {
+                    opggData[i].winrate.losses = $(elem).text();
+                });
+            // });
+            
+            $('.KDA.Cell').each((i, elem) => {
+                opggData[i].KDA = { "value": $(elem).data('value') + '' };
+            });
+            $('.Kill').each((i, elem) => {
+                opggData[i].KDA.kills = $(elem).text();
+            });
+            $('.Death').each((i, elem) => {
+                opggData[i].KDA.deaths = $(elem).text();
+            });
+            $('.Assist').each((i, elem) => {
+                opggData[i].KDA.assists = $(elem).text();
+            });
             return opggData;
         })
         .catch((err) => {
