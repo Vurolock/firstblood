@@ -28,71 +28,75 @@ router.route('/')
 
 
 router.route('/scrape')
-    .get((req, res) => {
-        let opggData = {};
-        const summoners = ['Vurolok', 'eHug', 'Dyrus', 'Shiphtur', 'AKoreanNinja', 'TF Blade', 'FQ Fly', 'Ssumdayday', 'Yoplait63', 'OmarGod'];
+.get((req, res) => {
+    axios.get(`https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/shiphtur?api_key=${process.env.API_KEY}`)
+    .then((summonerData) => {
+        axios.get(`https://na1.api.riotgames.com/lol/spectator/v3/active-games/by-summoner/${summonerData.data.id}?api_key=${process.env.API_KEY}`)
+        .then((spectator) => {
+            let summoners = apiTransform(spectator.data.participants);
+            let opggData = {};
 
-        let promises = summoners.map(name => {
+            let promises = summoners.map(summoner => {
+                const options = {
+                    uri: `http://na.op.gg/summoner/champions/userName=${summoner.name}`,
+                    transform: (body) => cheerio.load(body)
+                };
 
-            const options = {
-                uri: `http://na.op.gg/summoner/champions/userName=${name}`,
-                transform: (body) => cheerio.load(body)
-            };
+                return rp(options).then($ => {
+                    let currentSummoner = {};
 
-            return rp(options).then($ => {
-                let currentSummoner = {};
+                    $('.Body .Row').each((i, element) => {
+                        // Sets context for element selection
+                        let tableRowHtml = $(element).html();
 
-                $('.Body .Row').each((i, element) => {
-                    // Sets context for element selection
-                    let tableRowHtml = $(element).html();
+                        // Name
+                        currentSummoner[i] = { "name" : $('.ChampionName a', tableRowHtml).text() };
 
-                    // Name
-                    currentSummoner[i] = { "name" : $('.ChampionName a', tableRowHtml).text() };
+                        // Win ratio data
+                        currentSummoner[i].winrate = { "value": $('.WinRatio', tableRowHtml).text() };
 
-                    // Win ratio data
-                    currentSummoner[i].winrate = { "value": $('.WinRatio', tableRowHtml).text() };
+                        // If no wins or losses sets value to "0" instead of empty string
+                        if (!$('.Text.Left', tableRowHtml).text()) {
+                            currentSummoner[i].winrate.wins = "0";
+                        } else {
+                            currentSummoner[i].winrate.wins = $('.Text.Left', tableRowHtml).text().slice(0, -1);
+                        }
 
-                    // If no wins or losses sets value to "0" instead of empty string
-                    if (!$('.Text.Left', tableRowHtml).text()) {
-                        currentSummoner[i].winrate.wins = "0";
-                    } else {
-                        currentSummoner[i].winrate.wins = $('.Text.Left', tableRowHtml).text().slice(0, -1);
-                    }
+                        if (!$('.Text.Right', tableRowHtml).text()) {
+                            currentSummoner[i].winrate.losses = "0";
+                        } else {
+                            currentSummoner[i].winrate.losses = $('.Text.Right', tableRowHtml).text().slice(0, -1);
+                        }
 
-                    if (!$('.Text.Right', tableRowHtml).text()) {
-                        currentSummoner[i].winrate.losses = "0";
-                    } else {
-                        currentSummoner[i].winrate.losses = $('.Text.Right', tableRowHtml).text().slice(0, -1);
-                    }
+                        // KDA data
+                        currentSummoner[i].KDA = { "value": $('.KDA.Cell', tableRowHtml).data('value') + "" };
+                        currentSummoner[i].KDA.kills = $('.Kill', tableRowHtml).text();
+                        currentSummoner[i].KDA.deaths = $('.Death', tableRowHtml).text();
+                        currentSummoner[i].KDA.assists = $('.Assist', tableRowHtml).text();
 
-                    // KDA data
-                    currentSummoner[i].KDA = { "value": $('.KDA.Cell', tableRowHtml).data('value') + "" };
-                    currentSummoner[i].KDA.kills = $('.Kill', tableRowHtml).text();
-                    currentSummoner[i].KDA.deaths = $('.Death', tableRowHtml).text();
-                    currentSummoner[i].KDA.assists = $('.Assist', tableRowHtml).text();
+                        // Gold
+                        currentSummoner[i].gold = $('.KDA', tableRowHtml).next().text().slice(6, -5);
 
-                    // Gold
-                    currentSummoner[i].gold = $('.KDA', tableRowHtml).next().text().slice(6, -5);
-
-                    // CS
-                    currentSummoner[i].cs = $('.KDA', tableRowHtml).next().next().text().slice(6, -5);
+                        // CS
+                        currentSummoner[i].cs = $('.KDA', tableRowHtml).next().next().text().slice(6, -5);
+                    });
+                    return currentSummoner;
                 });
-                return currentSummoner;
+            });
+
+            Promise.all(promises)
+            .catch((err) => {
+                console.log(err);
+            })
+            .then((promises) => {
+                summoners.forEach((summoner, i) => {
+                    opggData[summoner.name] = promises[i];
+                });
+                res.json(opggData);
             });
         });
-
-        Promise.all(promises)
-        .catch((err) => {
-            console.log(err);
-        })
-        .then((promises) => {
-            summoners.forEach((summoner, i) => {
-                opggData[summoner] = promises[i];
-            });
-            res.json(opggData);
-        })
-
     });
+});
 
 router.route('/favicon.ico')
     .get((req, res) => {
