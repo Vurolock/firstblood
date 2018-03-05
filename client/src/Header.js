@@ -6,10 +6,16 @@ const Header = (props) => {
         <header>
             <div className="title">First Blood</div>
             <div className="search">
-                <form>
+                <form
+                    onSubmit={ (event) => {
+                        event.preventDefault();
+                        props.clickHandler(props.currentInput);
+                    }}
+                >
                     <input
+                        className="input"
                         type="text"
-                        placeholder="Search..."
+                        placeholder="Search a Summoner..."
                         value={props.currentInput}
                         onChange={ (event) => props.changeHandler(event.target.value) }
                     />
