@@ -28,8 +28,9 @@ router.route('/')
 
 
 router.route('/scrape')
-.get((req, res) => {
-    axios.get(`https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/shiphtur?api_key=${process.env.API_KEY}`)
+.post((req, res) => {
+    console.log(req.body.name);
+    axios.get(`https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/${req.body.name}?api_key=${process.env.API_KEY}`)
     .then((summonerData) => {
         axios.get(`https://na1.api.riotgames.com/lol/spectator/v3/active-games/by-summoner/${summonerData.data.id}?api_key=${process.env.API_KEY}`)
         .then((spectator) => {
@@ -87,11 +88,15 @@ router.route('/scrape')
             Promise.all(promises)
             .catch((err) => {
                 console.log(err);
+                res.json({
+                    message: 'That summoner is not currently in a match. Maybe you need to try again in a few seconds or have misspelled the name.'
+                })
             })
             .then((promises) => {
                 summoners.forEach((summoner, i) => {
                     opggData[summoner.name] = promises[i];
                 });
+                console.log('here is error');
                 res.json(opggData);
             });
         });

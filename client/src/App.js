@@ -6,8 +6,8 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			currentInput: '',
 			search: '',
+			currentInput: '',
 			data: {}
 		}
 	}
@@ -36,13 +36,23 @@ class App extends Component {
 	}
 
 	_searchClickHandler = (currentInput) => {
-		this.setState({
-			search: currentInput,
-			currentInput: ''
+		console.log(currentInput);
+		fetch('http://localhost:4000/scrape', {
+			method: 'POST',
+			headers: new Headers({
+				'Content-Type': 'application/json'}),
+			body: JSON.stringify({
+				name: currentInput
+			})
+		}).then(res => res.json())
+		.then(data => {
+			this.setState({
+				search: currentInput,
+				currentInput: '',
+				data: data
+			});
 		});
 	}
-
-
 }
 
 export default App;

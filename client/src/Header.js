@@ -15,9 +15,8 @@ const Header = (props) => {
                     />
                     <button
                         type="button"
-                        onClick={ () => {
-                           props.clickHandler(props.currentInput)
-                        }}>
+                        onClick={ () => props.clickHandler(props.currentInput) }
+                    >
                         <img src="./images/search.png" alt="" />
                     </button>
                 </form>

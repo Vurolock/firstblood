@@ -60,6 +60,10 @@ header {
     background-color: white;
 }
 
+.search button {
+    cursor: pointer;
+}
+
 .search button img, footer img {
     width: 32px;
     height: 32px;
