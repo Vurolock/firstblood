@@ -15,7 +15,7 @@ html, body {
 header {
     width: 100%;
     height: 116px;
-    background: linear-gradient(#581616, #af0d0d);
+    background: linear-gradient(#500909, #c71818);
 }
 
 .title {
@@ -60,7 +60,29 @@ header {
     background-color: white;
 }
 
-.search button img {
+.search button img, footer img {
     width: 32px;
     height: 32px;
+}
+
+footer {
+    width: 100%;
+    height: 40px;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(90deg, #c71818 -25%, #500909, #c71818 125%);
+    color: white;
+    font-size: 14px;
+}
+
+.credit {
+    height: 18px;
+    padding: 2px 8px 0 0;
+}
+
+.github {
+    padding: 2px 0 0 8px;
 }
