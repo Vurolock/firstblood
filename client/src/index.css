@@ -46,7 +46,7 @@ header {
     font-size: 20px;
 }
 
-.search input:focus {
+.search input:focus, button:focus {
     outline: none;
 }
 
