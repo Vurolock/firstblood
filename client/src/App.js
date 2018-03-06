@@ -22,6 +22,7 @@ class App extends Component {
 				/>
 				<main>
 					<DataTable
+						search={this.state.search}
 						data={this.state.data}
 					/>
 				</main>	

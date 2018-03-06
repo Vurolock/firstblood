@@ -89,14 +89,13 @@ router.route('/scrape')
             .catch((err) => {
                 console.log(err);
                 res.json({
-                    message: 'That summoner is not currently in a match. Maybe you need to try again in a few seconds or have misspelled the name.'
+                    message: 'That summoner is not currently in a match. Try again in a few seconds or check your spelling.'
                 })
             })
             .then((promises) => {
                 summoners.forEach((summoner, i) => {
                     opggData[summoner.name] = promises[i];
                 });
-                console.log('here is error');
                 res.json(opggData);
             });
         });
