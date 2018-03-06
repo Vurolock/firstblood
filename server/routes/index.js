@@ -31,8 +31,20 @@ router.route('/scrape')
 .post((req, res) => {
     console.log(req.body.name);
     axios.get(`https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/${req.body.name}?api_key=${process.env.API_KEY}`)
+    .catch(err => {
+        console.log(err.response);
+        res.json({
+            message: 'That summoner does not exist.'
+        });
+    })
     .then((summonerData) => {
         axios.get(`https://na1.api.riotgames.com/lol/spectator/v3/active-games/by-summoner/${summonerData.data.id}?api_key=${process.env.API_KEY}`)
+        .catch(err => {
+            console.log(err.response);
+            res.json({
+                message: 'That summoner is not currently in game. Check your spelling or try again in a few seconds.'
+            });
+        })
         .then((spectator) => {
             let summoners = apiTransform(spectator.data.participants);
             let opggData = {};
@@ -87,12 +99,6 @@ router.route('/scrape')
             });
 
             Promise.all(promises)
-            .catch((err) => {
-                console.log(err);
-                res.json({
-                    message: 'That summoner is not currently in a match. Try again in a few seconds or check your spelling.'
-                })
-            })
             .then((promises) => {
                 summoners.forEach((summoner, i) => {
                     opggData[summoner.name] = promises[i];
