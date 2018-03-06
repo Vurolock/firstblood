@@ -12,7 +12,7 @@ const DataTable = (props) => {
         return (
             <tr className={classColor}>
                 <td>{summonerName}</td>
-                <td>100% 100W/0L</td>
+                <td>{props.data[summonerName].winRatio}</td>
                 <td>{props.data[summonerName].currentChamp}</td>
                 <td>100% 25W/0L</td>
                 <td>5.55 10/3/6</td>

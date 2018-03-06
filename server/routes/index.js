@@ -101,12 +101,38 @@ router.route('/scrape')
             });
 
             Promise.all(promises)
-            .then((promises) => {
+            .then(promises => {
                 summoners.forEach((summoner, i) => {
+                    
+                    // Total wins
+                    let championList = promises[i];
+                    let winsArray = Object.keys(championList).map(champion => {
+                        return parseInt(championList[champion].winrate.wins, 10);
+                    })
+
+                    let totalWins = winsArray.reduce((total, value) => {
+                        return total += value;
+                    }, 0);
+
+                    // Total losses
+                    let lossesArray = Object.keys(championList).map(champion => {
+                        return parseInt(championList[champion].winrate.losses, 10);
+                    })
+
+                    let totalLosses = lossesArray.reduce((total, value) => {
+                        return total += value;
+                    }, 0);
+
+                    // Total win ratio
+                    let totalWinRatio = (Math.round((totalWins/(totalWins + totalLosses) * 100) * 10) / 10) + '%';
+
                     opggData[summoner.name] = {
                         "team": summoner.team,
                         "currentChamp": summoner.champion,
-                        "allChamps": promises[i]
+                        "allChamps": promises[i],
+                        "wins": totalWins,
+                        "losses": totalLosses,
+                        "winRatio": totalWinRatio
                     };
                 });
                 res.json(opggData);
