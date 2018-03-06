@@ -124,7 +124,7 @@ router.route('/scrape')
                     }, 0);
 
                     // Total win ratio
-                    let totalWinRatio = (Math.round((totalWins/(totalWins + totalLosses) * 100) * 10) / 10) + '%';
+                    let totalWinRatio = (Math.round(totalWins/(totalWins + totalLosses) * 100)) + '%';
 
                     opggData[summoner.name] = {
                         "team": summoner.team,

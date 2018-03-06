@@ -12,9 +12,33 @@ const DataTable = (props) => {
             classColor = "table-danger";
         }
 
+        // Current player
+        let currentPlayer = props.data[summonerName];
+
         // Current champion
-        let currentChamp = props.data[summonerName].currentChamp;
-        console.log(currentChamp);
+        let currentChamp = currentPlayer.currentChamp;
+
+        // Champion details
+        let championDetails = currentPlayer.allChamps[currentChamp];
+
+        // If championDetails is undefined, this is the first match the player has used this champion
+        if (!championDetails) {
+            return (
+                <tr
+                    className={classColor}
+                    key={i}    
+                >
+                    <td>
+                        {summonerName}<br />{currentPlayer.winRatio}<br />{currentPlayer.wins}W / {currentPlayer.losses}L
+                    </td>
+                    <td>{currentChamp}</td>
+                    <td>First time</td>
+                    <td>playing this</td>
+                    <td>champion...</td>
+                    <td>No data yet!</td>
+                </tr>
+            );
+        }
 
         return (
             <tr
@@ -22,13 +46,13 @@ const DataTable = (props) => {
                 key={i}    
             >
                 <td>
-                    {summonerName}<br />{props.data[summonerName].winRatio}    {props.data[summonerName].wins}W / {props.data[summonerName].losses}L
+                    {summonerName}<br />{currentPlayer.winRatio}<br />{currentPlayer.wins}W / {currentPlayer.losses}L
                 </td>
                 <td>{currentChamp}</td>
-                <td>100% 25W/0L</td>
-                <td>5.55 10/3/6</td>
-                <td>{props.data[summonerName].allChamps[currentChamp].gold}</td>
-                <td>{props.data[summonerName].allChamps[currentChamp].cs}</td>
+                <td>{championDetails.winrate.value}<br />{championDetails.winrate.wins}W / {championDetails.winrate.losses}L</td>
+                <td>{championDetails.KDA.value}<br />{championDetails.KDA.kills} / {championDetails.KDA.deaths} / {championDetails.KDA.assists}</td>
+                <td>{championDetails.gold}</td>
+                <td>{championDetails.cs}</td>
             </tr>
         );
     })
