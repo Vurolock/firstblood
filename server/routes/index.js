@@ -47,6 +47,7 @@ router.route('/scrape')
         })
         .then((spectator) => {
             let summoners = apiTransform(spectator.data.participants);
+            console.log(summoners);
             let opggData = {};
 
             let promises = summoners.map(summoner => {
@@ -64,35 +65,36 @@ router.route('/scrape')
                         let tableRowHtml = $(element).html();
 
                         // Name
-                        currentSummoner[i] = { "name" : $('.ChampionName a', tableRowHtml).text() };
+                        let champName = $('.ChampionName a', tableRowHtml).text();
+                        currentSummoner[champName] = {};
 
                         // Win ratio data
-                        currentSummoner[i].winrate = { "value": $('.WinRatio', tableRowHtml).text() };
+                        currentSummoner[champName].winrate = { "value": $('.WinRatio', tableRowHtml).text() };
 
                         // If no wins or losses sets value to "0" instead of empty string
                         if (!$('.Text.Left', tableRowHtml).text()) {
-                            currentSummoner[i].winrate.wins = "0";
+                            currentSummoner[champName].winrate.wins = "0";
                         } else {
-                            currentSummoner[i].winrate.wins = $('.Text.Left', tableRowHtml).text().slice(0, -1);
+                            currentSummoner[champName].winrate.wins = $('.Text.Left', tableRowHtml).text().slice(0, -1);
                         }
 
                         if (!$('.Text.Right', tableRowHtml).text()) {
-                            currentSummoner[i].winrate.losses = "0";
+                            currentSummoner[champName].winrate.losses = "0";
                         } else {
-                            currentSummoner[i].winrate.losses = $('.Text.Right', tableRowHtml).text().slice(0, -1);
+                            currentSummoner[champName].winrate.losses = $('.Text.Right', tableRowHtml).text().slice(0, -1);
                         }
 
                         // KDA data
-                        currentSummoner[i].KDA = { "value": $('.KDA.Cell', tableRowHtml).data('value') + "" };
-                        currentSummoner[i].KDA.kills = $('.Kill', tableRowHtml).text();
-                        currentSummoner[i].KDA.deaths = $('.Death', tableRowHtml).text();
-                        currentSummoner[i].KDA.assists = $('.Assist', tableRowHtml).text();
+                        currentSummoner[champName].KDA = { "value": $('.KDA.Cell', tableRowHtml).data('value') + "" };
+                        currentSummoner[champName].KDA.kills = $('.Kill', tableRowHtml).text();
+                        currentSummoner[champName].KDA.deaths = $('.Death', tableRowHtml).text();
+                        currentSummoner[champName].KDA.assists = $('.Assist', tableRowHtml).text();
 
                         // Gold
-                        currentSummoner[i].gold = $('.KDA', tableRowHtml).next().text().slice(6, -5);
+                        currentSummoner[champName].gold = $('.KDA', tableRowHtml).next().text().slice(6, -5);
 
                         // CS
-                        currentSummoner[i].cs = $('.KDA', tableRowHtml).next().next().text().slice(6, -5);
+                        currentSummoner[champName].cs = $('.KDA', tableRowHtml).next().next().text().slice(6, -5);
                     });
                     return currentSummoner;
                 });
@@ -101,18 +103,17 @@ router.route('/scrape')
             Promise.all(promises)
             .then((promises) => {
                 summoners.forEach((summoner, i) => {
-                    opggData[summoner.name] = promises[i];
+                    opggData[summoner.name] = {
+                        "team": summoner.team,
+                        "currentChamp": summoner.champion,
+                        "allChamps": promises[i]
+                    };
                 });
                 res.json(opggData);
             });
         });
     });
 });
-
-router.route('/favicon.ico')
-    .get((req, res) => {
-        res.json('');
-    })
 
 module.exports = router;
 

@@ -4,7 +4,7 @@ const DataTable = (props) => {
 
     return (
         <table className="table table-hover data-table">
-            {/* <thead className="thead-dark">
+            <thead className="thead-dark">
                 <tr>
                     <th scope="col">Name</th>
                     <th scope="col">Ranked Winrate</th>
@@ -106,7 +106,7 @@ const DataTable = (props) => {
                     <td>8,043</td>
                     <td>45</td>
                 </tr>
-            </tbody> */}
+            </tbody>
         </table>
     );
 }
