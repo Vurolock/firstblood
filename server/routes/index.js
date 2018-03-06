@@ -38,8 +38,9 @@ router.route('/scrape')
             let opggData = {};
 
             let promises = summoners.map(summoner => {
+                const encodedURI = encodeURI(`http://na.op.gg/summoner/champions/userName=${summoner.name}`);
                 const options = {
-                    uri: `http://na.op.gg/summoner/champions/userName=${summoner.name}`,
+                    uri: encodedURI,
                     transform: (body) => cheerio.load(body)
                 };
 
