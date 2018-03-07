@@ -10,13 +10,21 @@ html {
 html, body {
     width: 100%;
     height: 100%;
-    background-color: rgb(113, 113, 113)
+}
+
+body {
+    background-image: url('./css-images/the-rift.jpg');
+    display: flex;
+    flex-direction: column;
+}
+
+#root {
+    flex: 1;
 }
 
 header {
     width: 100%;
     height: 116px;
-    background: linear-gradient(#320950, #735dff);
 }
 
 .title {
@@ -25,14 +33,17 @@ header {
     color: #fff;
     padding-top: 14px;
     font-family: 'Trade Winds';
+    text-shadow: -2px 2px black;
 }
 
 .search {
+    max-width: 350px;
     height: 40px;
-    margin: 3px 16px 0;
-    padding: 0 62px 0 0;
+    margin: auto;
+    padding: 0 50px 0 0;
     background: #fff;
     border-radius: 3px;
+    position: relative;
 }
 
 .search form, .input {
@@ -53,8 +64,8 @@ header {
 
 .search button {
     position: absolute;
-    top: 62px;
-    right: 24px;
+    top: 5px;
+    right: 10px;
     border: none;
     padding: 0;
     height: 32px;
@@ -70,21 +81,37 @@ header {
     height: 32px;
 }
 
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.table {
+    margin-bottom: 20px; 
+}
+
 .data-table {
     text-align: center;
     max-width: 1000px;
-    margin: auto;
+    font-size: 14px;
+}
+
+.data-table tbody {
+    font-size: 10px;
+}
+
+.thead-dark th, thead th {
+    padding: 0;
+    border: none;
 }
 
 footer {
     width: 100%;
     height: 40px;
-    position: absolute;
-    bottom: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(90deg, #735dff -25%, #320950, #735dff 125%);
     color: white;
     font-size: 14px;
 }
@@ -96,4 +123,10 @@ footer {
 
 .github {
     padding: 2px 0 0 8px;
+}
+
+@media screen and (max-width: 1120px) {
+    body {
+        background-image: url('./css-images/the-rift-mobile.jpg');
+    }
 }
