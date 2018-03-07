@@ -15,19 +15,6 @@ router.all('*', (req, res, next) => {
 })
 
 router.route('/')
-    .get((req, res) => {
-        axios.get(`https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/shiphtur?api_key=${process.env.API_KEY}`)
-            .then((summonerData) => {
-                axios.get(`https://na1.api.riotgames.com/lol/spectator/v3/active-games/by-summoner/${summonerData.data.id}?api_key=${process.env.API_KEY}`)
-                    .then((spectator) => {
-                        let summoners = apiTransform(spectator.data.participants);
-                        res.json(summoners);
-                    });
-            });
-    });
-
-
-router.route('/scrape')
 .post((req, res) => {
     axios.get(`https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/${req.body.name}?api_key=${process.env.API_KEY}`)
     .catch(err => {
