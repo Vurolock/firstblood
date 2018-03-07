@@ -89,6 +89,13 @@ main {
     align-items: center;
 }
 
+.message {
+    color: #fff;
+    font-size: 24px;
+    text-align: center;
+    background-color: rgba(46, 46, 46, 0.479);
+}
+
 .data-container {
     width: 90%;
     max-width: 660px;

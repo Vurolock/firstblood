@@ -6,6 +6,7 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			message: '',
 			search: '',
 			currentInput: '',
 			data: {}
@@ -20,6 +21,9 @@ class App extends Component {
 					clickHandler={this._searchClickHandler}
 					changeHandler={this._searchChangeHandler}
 				/>
+				<div className="message">
+					{this.state.message}
+				</div>
 				<main>
 					<DataTable
 						search={this.state.search}
@@ -51,11 +55,19 @@ class App extends Component {
 			})
 		}).then(res => res.json())
 		.then(data => {
-			this.setState({
-				search: currentInput,
-				currentInput: '',
-				data: data
-			});
+			if (data.message) {
+				this.setState({
+					message: data.message,
+					data: {}
+				});
+			} else {
+				this.setState({
+					message: '',
+					search: currentInput,
+					currentInput: '',
+					data: data
+				});
+			}
 		});
 	}
 }
