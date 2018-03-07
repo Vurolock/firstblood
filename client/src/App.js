@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from './Header';
 import DataTable from './DataTable';
 import Loader from './Loader';
+import Message from './Message';
 
 class App extends Component {
 	constructor(props) {
@@ -23,9 +24,9 @@ class App extends Component {
 					clickHandler={this._searchClickHandler}
 					changeHandler={this._searchChangeHandler}
 				/>
-				<div className="message">
-					{this.state.message}
-				</div>
+				<Message
+					message={this.state.message}
+				/>
 				<Loader
 					loading={this.state.loading}
 				/>

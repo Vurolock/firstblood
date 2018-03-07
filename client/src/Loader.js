@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Loader = (props) => {
-    if (props.loading === true) {
+    if (props.loading) {
         return (
             <div className="loading">
                 <img src="./images/loading.gif" alt='' />
