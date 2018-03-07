@@ -98,6 +98,8 @@ main {
 
 .loading {
     margin: auto;
+    width: 100px;
+    height: 100px;
 }
 
 .data-container {

@@ -56,7 +56,7 @@ class App extends Component {
 			message: '',
 			data: {}
 		}, () => {
-			fetch('http://localhost:4000/scrape', {
+			fetch('/scrape', {
 				method: 'POST',
 				headers: new Headers({
 					'Content-Type': 'application/json'}),
