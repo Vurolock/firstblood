@@ -53,6 +53,7 @@ class App extends Component {
 	_searchClickHandler = (currentInput) => {
 		this.setState({
 			loading: true,
+			message: '',
 			data: {}
 		}, () => {
 			fetch('http://localhost:4000/scrape', {
@@ -73,7 +74,6 @@ class App extends Component {
 			} else {
 				this.setState({
 					loading: false,
-					message: '',
 					search: currentInput,
 					currentInput: '',
 					data: data
