@@ -7,6 +7,22 @@ const DataTable = (props) => {
         // Team color
         let teamColor =  props.data[summonerName].team + "-team";
 
+        if (i % 2 !== 0 && teamColor === "blue-team") {
+            teamColor = "blue-team-dark";
+
+        } else if (i % 2 !== 0 && teamColor === "red-team") {
+            teamColor = "red-team-dark";
+        }
+
+        // Border radius on top and bottom rows
+        let rowRadius = '';
+        if (i === 0) {
+            rowRadius = "top-row";
+
+        } else if (i === 9) {
+            rowRadius = "bottom-row";
+        }
+
         // Current player
         let currentPlayer = props.data[summonerName];
 
@@ -19,35 +35,89 @@ const DataTable = (props) => {
         // If championDetails is undefined, this is the first match the player has used this champion
         if (!championDetails) {
             return (
-                <tr
-                    className={[teamColor, "row"].join(' ')}
+                <div
+                    className={`${teamColor} ${rowRadius} row`}
                     key={i}    
                 >
-                    <td>
-                        {summonerName}<br />{currentPlayer.winRatio}<br />{currentPlayer.wins}W / {currentPlayer.losses}L
-                    </td>
-                    <td>{currentChamp}</td>
-                    <td>First time</td>
-                    <td>playing this</td>
-                    <td>champion...</td>
-                    <td>No data yet!</td>
-                </tr>
+
+                    <div className="summoner">
+
+                        <div className="s-name">
+                            {summonerName}
+                        </div>
+
+                        <div className="s-wr">
+                            {currentPlayer.winRatio} {currentPlayer.wins}W/{currentPlayer.losses}L
+                        </div>
+
+                    </div>
+
+                    <div className="champion">
+
+                        <div className="c-name">
+                            {currentChamp}
+                        </div>
+
+                        <div className="c-wr">
+                            No data yet
+                        </div>
+
+                    </div>
+
+                </div>
             );
         } else {
             return (
-                <tr
-                    className={teamColor}
+                <div
+                    className={`${teamColor} ${rowRadius} row`}
                     key={i}    
                 >
-                    <td>
-                        {summonerName}<br />{currentPlayer.winRatio}<br />{currentPlayer.wins}W / {currentPlayer.losses}L
-                    </td>
-                    <td>{currentChamp}</td>
-                    <td>{championDetails.winrate.value}<br />{championDetails.winrate.wins}W / {championDetails.winrate.losses}L</td>
-                    <td>{championDetails.KDA.value}<br />{championDetails.KDA.kills} / {championDetails.KDA.deaths} / {championDetails.KDA.assists}</td>
-                    <td>{championDetails.gold}</td>
-                    <td>{championDetails.cs}</td>
-                </tr>
+
+                    <div className="summoner">
+
+                        <div className="s-name">
+                            {summonerName}
+                        </div>
+
+                        <div className="s-wr">
+                            WR {currentPlayer.winRatio} {currentPlayer.wins}W/{currentPlayer.losses}L
+                        </div>
+
+                    </div>
+
+                    <div className="champion">
+
+                        <div className="top-mini-row">
+
+                            <div className="c-name">
+                                {currentChamp}
+                            </div>
+
+                            <div className="kda">
+                                KDA {championDetails.KDA.value} {championDetails.KDA.kills}/{championDetails.KDA.deaths}/{championDetails.KDA.assists}
+                            </div>
+
+                        </div>
+
+                        <div className="bottom-mini-row">
+
+                            <div className="c-wr">
+                                WR {championDetails.winrate.value} {championDetails.winrate.wins}W/{championDetails.winrate.losses}L
+                            </div>
+
+                            <div className="gold">
+                                {championDetails.gold}g
+                            </div>
+
+                            <div className="cs">
+                                {championDetails.cs}cs
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
             );
         }
     });

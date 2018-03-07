@@ -7,7 +7,7 @@ html {
     box-sizing: inherit;
 }
 
-html, body {
+html, body, #root {
     width: 100%;
     height: 100%;
 }
@@ -19,19 +19,21 @@ body {
 }
 
 #root {
-    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 header {
     width: 100%;
-    height: 116px;
+    height: 100px;
 }
 
 .title {
     text-align: center;
     font-size: 32px;
     color: #fff;
-    padding-top: 10px;
+    padding: 12px 0 8px 0;
     font-family: 'Trade Winds';
     text-shadow: -2px 2px black;
 }
@@ -87,12 +89,70 @@ main {
     align-items: center;
 }
 
+.data-container {
+    width: 90%;
+    max-width: 660px;
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    text-align: center;
+}
+
+.row {
+    height: 40px;
+    display: flex;
+    padding: 0 2px 0 2px;
+}
+
+.top-row {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.bottom-row {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
 .blue-team {
-    background-color: rgba(0, 0, 255, 0.516);
+    background-color: #2398d3;
 }
 
 .red-team {
-    background-color: rgba(255, 0, 0, 0.509);
+    background-color: #f0655c;
+}
+
+.blue-team-dark {
+    background-color: #1c80b3;
+}
+
+.red-team-dark {
+    background-color: #c25149;
+}
+
+.summoner {
+    width: 40%;
+    border-right: 2px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.champion {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.top-mini-row, .bottom-mini-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.s-name, .c-name {
+    font-weight: bold;
 }
 
 footer {
@@ -106,13 +166,12 @@ footer {
 }
 
 .credit {
-    height: 22px;
-    padding: 0 8px 24px 0;
     text-shadow: -1px 1px black;
+    padding: 0 5px 0 0;
 }
 
 .github {
-    padding: 0 0 2px 8px;
+    padding: 2px 0 0 5px;
 }
 
 @media screen and (max-width: 1500px) {
@@ -124,5 +183,11 @@ footer {
 @media screen and (max-height: 799px) and (max-width: 850px) {
     body {
         background-image: url('./css-images/the-rift-mobile.jpg');
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .data-container {
+        font-size: 11px;
     }
 }
