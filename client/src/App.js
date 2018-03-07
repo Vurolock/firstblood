@@ -9,10 +9,10 @@ class App extends Component {
 		super(props);
 		this.state = {
 			loading: false,
-			message: '',
+			message: 'Welcome to First Blood.\nHere you can enter your summoner name during the League of Legends loading screen (or during the match) to get some info that can give you the winning edge.',
 			search: '',
 			currentInput: '',
-			data: {}
+			data: null
 		}
 	}
 	
@@ -53,8 +53,8 @@ class App extends Component {
 	_searchClickHandler = (currentInput) => {
 		this.setState({
 			loading: true,
-			message: '',
-			data: {}
+			message: null,
+			data: null
 		}, () => {
 			fetch('/', {
 				method: 'POST',
@@ -69,10 +69,11 @@ class App extends Component {
 				this.setState({
 					loading: false,
 					message: data.message,
-					data: {}
+					data: null
 				});
 			} else {
 				this.setState({
+					message: null,
 					loading: false,
 					search: currentInput,
 					currentInput: '',
