@@ -96,6 +96,10 @@ main {
     background-color: rgba(46, 46, 46, 0.479);
 }
 
+.loading {
+    margin: auto;
+}
+
 .data-container {
     width: 90%;
     max-width: 660px;
