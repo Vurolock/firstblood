@@ -29,7 +29,6 @@ router.route('/')
 
 router.route('/scrape')
 .post((req, res) => {
-    console.log(req.body.name);
     axios.get(`https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/${req.body.name}?api_key=${process.env.API_KEY}`)
     .catch(err => {
         console.log(err.response);
@@ -47,7 +46,6 @@ router.route('/scrape')
         })
         .then((spectator) => {
             let summoners = apiTransform(spectator.data.participants);
-            console.log(summoners);
             let opggData = {};
 
             let promises = summoners.map(summoner => {

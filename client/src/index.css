@@ -29,9 +29,9 @@ header {
 
 .title {
     text-align: center;
-    font-size: 28px;
+    font-size: 32px;
     color: #fff;
-    padding-top: 14px;
+    padding-top: 10px;
     font-family: 'Trade Winds';
     text-shadow: -2px 2px black;
 }
@@ -87,23 +87,12 @@ main {
     align-items: center;
 }
 
-.table {
-    margin-bottom: 20px; 
+.blue-team {
+    background-color: rgba(0, 0, 255, 0.516);
 }
 
-.data-table {
-    text-align: center;
-    max-width: 1000px;
-    font-size: 14px;
-}
-
-.data-table tbody {
-    font-size: 10px;
-}
-
-.thead-dark th, thead th {
-    padding: 0;
-    border: none;
+.red-team {
+    background-color: rgba(255, 0, 0, 0.509);
 }
 
 footer {
@@ -118,14 +107,21 @@ footer {
 
 .credit {
     height: 22px;
-    padding: 2px 8px 0 0;
+    padding: 0 8px 24px 0;
+    text-shadow: -1px 1px black;
 }
 
 .github {
-    padding: 2px 0 0 8px;
+    padding: 0 0 2px 8px;
 }
 
-@media screen and (max-width: 1120px) {
+@media screen and (max-width: 1500px) {
+    body {
+        background-image: url('./css-images/the-rift-medium.jpg');
+    }
+}
+
+@media screen and (max-height: 799px) and (max-width: 850px) {
     body {
         background-image: url('./css-images/the-rift-mobile.jpg');
     }

@@ -25,7 +25,11 @@ class App extends Component {
 						search={this.state.search}
 						data={this.state.data}
 					/>
-				</main>	
+				</main>
+				<footer>
+            		<div className="credit">Andrew Keller 2018</div>
+            		<a className="github" href="https://github.com/Vurolock/firstblood/" target="_blank" rel="noopener noreferrer"><img src="./images/github-logo.png" alt='' /></a>
+        		</footer>	
 			</React.Fragment>
 		);
 	}
