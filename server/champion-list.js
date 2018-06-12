@@ -408,6 +408,10 @@ const championList = [
         "name": "Master Yi"
     },
     {
+        "id": 555,
+        "name": "Pyke"
+    },
+    {
         "id": 60,
         "name": "Elise"
     },
