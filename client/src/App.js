@@ -12,7 +12,8 @@ class App extends Component {
 			message: 'Welcome to First Blood.\nHere you can enter your summoner name during the League of Legends loading screen (or during the match) to get some info that can give you the winning edge.',
 			search: '',
 			currentInput: '',
-			data: null
+			data: null,
+			toggle: "game"
 		}
 	}
 	
@@ -23,6 +24,8 @@ class App extends Component {
 					currentInput={this.state.currentInput}
 					clickHandler={this._searchClickHandler}
 					changeHandler={this._searchChangeHandler}
+					toggleHandler={this._toggleHandler}
+					toggle={this.state.toggle}
 				/>
 				<Message
 					message={this.state.message}
@@ -81,6 +84,12 @@ class App extends Component {
 				});
 			}
 		});
+		});
+	}
+
+	_toggleHandler = (toggled) => {
+		this.setState({
+			toggle: toggled
 		});
 	}
 }

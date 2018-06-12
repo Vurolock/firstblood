@@ -89,10 +89,18 @@ header {
 }
 
 .game, .lobby {
-    background-color: #42d43e;
-    padding: 4px;
+    background-color: rgb(90, 201, 76);
+    padding: 2px;
+    border: 2px solid rgb(67, 117, 45);
     border-radius: 5px;
     margin: 5px;
+    cursor: pointer;
+}
+
+.faded {
+    background-color: rgba(197, 197, 197, 0.2);
+    border: 2px solid rgba(0, 0, 0, 0.6);
+    color: rgb(27, 27, 27);
 }
 
 main {
@@ -106,8 +114,8 @@ main {
     color: #fff;
     font-size: 22px;
     text-align: center;
-    background-color: rgba(46, 46, 46, 0.7);
-    border-radius: 2px;
+    background-color: rgba(46, 46, 46, 0.75);
+    border-radius: 5px;
     padding-bottom: 3px;
     margin: 0 auto;
 }
