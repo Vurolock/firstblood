@@ -83,6 +83,18 @@ header {
     height: 32px;
 }
 
+.game-lobby-toggle {
+    display: flex;
+    justify-content: center;
+}
+
+.game, .lobby {
+    background-color: #42d43e;
+    padding: 4px;
+    border-radius: 5px;
+    margin: 5px;
+}
+
 main {
     display: flex;
     justify-content: center;

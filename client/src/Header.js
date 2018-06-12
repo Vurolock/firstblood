@@ -33,7 +33,21 @@ const Header = (props) => {
                     </button>
 
                 </form>
+
             </div>
+
+            <div className="game-lobby-toggle">
+                
+                <div className="game">
+                    game
+                </div>
+
+                <div className="lobby">
+                    lobby
+                </div>
+
+            </div>
+
         </header>
     );
 }
