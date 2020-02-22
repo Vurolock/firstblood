@@ -1,36 +1,40 @@
-const championList = require('./champion-list');
+const fs = require('fs');
 
-const apiTransform = (participants) => {
+const allChampions = JSON.parse(
+  fs.readFileSync(`${__dirname}/allChampions.json`)
+);
 
-	let team = '';
-	let champion = '';
+console.log(allChampions);
 
-	let players = participants.map(player => {
+const apiTransform = participants => {
+  let team = '';
+  let champion = '';
 
-		// Team
-		if (player.teamId === 100) {
-			team = 'blue'
-		} else if (player.teamId === 200) {
-			team = 'red'
-		}
+  let players = participants.map(player => {
+    // Team
+    if (player.teamId === 100) {
+      team = 'blue';
+    } else if (player.teamId === 200) {
+      team = 'red';
+    }
 
-		// Champion
-		for (var i = 0; i < championList.length; i++) {
-			if (player.championId === championList[i].id) {
-				champion = championList[i].name;
-				break;
-			}
-		}
+    // Champion
+    for (var i = 0; i < allChampions.length; i++) {
+      if (player.championId === allChampions[i].id) {
+        champion = allChampions[i].name;
+        break;
+      }
+    }
 
-		// Create object
-		player = {
-			"team": team,
-			"champion": champion,
-			"name": player.summonerName
-		}
-		return player;
-	});
-	return players;
-}
+    // Create object
+    player = {
+      team: team,
+      champion: champion,
+      name: player.summonerName
+    };
+    return player;
+  });
+  return players;
+};
 
 module.exports = apiTransform;
