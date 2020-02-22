@@ -62,25 +62,25 @@ class App extends Component {
 					'Content-Type': 'application/json'}),
 				body: JSON.stringify({
 					name: currentInput
-			})
-		}).then(res => res.json())
-		.then(data => {
-			if (data.message) {
-				this.setState({
-					loading: false,
-					message: data.message,
-					data: null
-				});
-			} else {
-				this.setState({
-					message: null,
-					loading: false,
-					search: currentInput,
-					currentInput: '',
-					data: data
-				});
-			}
-		});
+				})
+			}).then(res => res.json())
+			.then(data => {
+				if (data.message) {
+					this.setState({
+						loading: false,
+						message: data.message,
+						data: null
+					});
+				} else {
+					this.setState({
+						message: null,
+						loading: false,
+						search: currentInput,
+						currentInput: '',
+						data: data
+					});
+				}
+			});
 		});
 	}
 }
