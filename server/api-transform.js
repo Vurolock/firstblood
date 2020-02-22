@@ -4,8 +4,6 @@ const allChampions = JSON.parse(
   fs.readFileSync(`${__dirname}/allChampions.json`)
 );
 
-console.log(allChampions);
-
 const apiTransform = participants => {
   let team = '';
   let champion = '';

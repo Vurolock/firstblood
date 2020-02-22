@@ -20,7 +20,7 @@ router.all('*', (req, res, next) => {
 router.route('/').post((req, res) => {
   axios
     .get(
-      `https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/${req.body.name}?api_key=${process.env.API_KEY}`
+      `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${req.body.name}?api_key=${process.env.API_KEY}`
     )
     .catch(err => {
       console.log(err.response);
@@ -31,7 +31,7 @@ router.route('/').post((req, res) => {
     .then(summonerData => {
       axios
         .get(
-          `https://na1.api.riotgames.com/lol/spectator/v3/active-games/by-summoner/${summonerData.data.id}?api_key=${process.env.API_KEY}`
+          `https://na1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/${summonerData.data.id}?api_key=${process.env.API_KEY}`
         )
         .catch(err => {
           console.log(err.response);
@@ -46,7 +46,7 @@ router.route('/').post((req, res) => {
 
           let promises = summoners.map(summoner => {
             const encodedURI = encodeURI(
-              `http://na.op.gg/summoner/champions/userName=${summoner.name}`
+              `https://na.op.gg/summoner/champions/userName=${summoner.name}`
             );
             const options = {
               uri: encodedURI,
@@ -171,7 +171,7 @@ module.exports = router;
 /*
     Endpoint Chain:
 
-    Submit input               -->  /lol/summoner/v3/summoners/by-name/{summonerName}       (1)  returns:
-    summonerId + accountId[0]  -->  /lol/spectator/v3/active-games/by-summoner/{summonerId} (1)  returns:
+    Submit input               -->  /lol/summoner/v4/summoners/by-name/{summonerName}       (1)  returns:
+    summonerId + accountId[0]  -->  /lol/spectator/v4/active-games/by-summoner/{summonerId} (1)  returns:
     summonerName[1-9]          -->  SCRAPE
 */

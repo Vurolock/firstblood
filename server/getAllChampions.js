@@ -15,7 +15,7 @@ axios
     const allChampions = Object.values(res.data.data).map(champion => {
       return {
         name: champion.name,
-        id: champion.key
+        id: parseInt(champion.key, 10)
       };
     });
     fs.writeFileSync(
