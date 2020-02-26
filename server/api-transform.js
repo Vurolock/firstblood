@@ -1,38 +1,44 @@
 const fs = require('fs');
+const getAllChampions = require('./getAllChampions');
 
 const allChampions = JSON.parse(
   fs.readFileSync(`${__dirname}/allChampions.json`)
 );
 
 const apiTransform = participants => {
-  let team = '';
-  let champion = '';
-
-  let players = participants.map(player => {
+  const players = participants.map(participant => {
     // Team
-    if (player.teamId === 100) {
-      team = 'blue';
-    } else if (player.teamId === 200) {
-      team = 'red';
-    }
+    const team = participant.teamId === 100 ? 'blue' : 'red';
 
     // Champion
-    for (var i = 0; i < allChampions.length; i++) {
-      if (player.championId === allChampions[i].id) {
-        champion = allChampions[i].name;
-        break;
-      }
-    }
+    const champion =
+      allChampions.find(champion => champion.id === participant.championId) ||
+      getAllChampions().then(champions => {
+        console.log(champions);
+        return champions.find(
+          champion => champion.id === participant.championId
+        );
+      });
 
-    // Create object
+    // Create player
     player = {
-      team: team,
-      champion: champion,
-      name: player.summonerName
+      team,
+      champion,
+      name: participant.summonerName
     };
     return player;
   });
   return players;
 };
+
+const mockParticipants = [
+  {
+    championId: 412,
+    summonerName: 'Summoner1',
+    teamId: 100
+  }
+];
+
+console.log(apiTransform(mockParticipants));
 
 module.exports = apiTransform;
